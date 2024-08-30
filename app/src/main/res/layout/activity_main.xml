@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- ImageView för att visa och rotera en anpassad ikon -->
+    <ImageView
+        android:id="@+id/rotateImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- X-axel ProgressBar och TextView -->
+    <ProgressBar
+        android:id="@+id/progressBarX"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/labelX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X-Axel"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Y-axel ProgressBar och TextView -->
+    <ProgressBar
+        android:id="@+id/progressBarY"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/labelY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Y-Axel"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Z-axel ProgressBar och TextView -->
+    <ProgressBar
+        android:id="@+id/progressBarZ"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/labelZ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Z-Axel"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- SeekBar för att visa och ändra rotationsvinkel -->
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- SwitchCompat för att aktivera/deaktivera sensorerna -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/toggle_sensor"/>
+
+</LinearLayout>

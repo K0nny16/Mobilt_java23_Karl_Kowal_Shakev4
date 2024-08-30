@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Mobilt_java23_Karl_Kowal_Shakev4</string>
+    <string name="toggle_sensor">Toggle Sensor</string>
+    <string name="activate_sensors">Activate Sensors</string>
+    <string name="deactivate_sensors">Deactivate Sensors</string>
+</resources>
