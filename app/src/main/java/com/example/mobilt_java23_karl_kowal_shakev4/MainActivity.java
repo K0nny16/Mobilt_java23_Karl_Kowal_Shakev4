@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor lightSensor;
 
     // UI-komponenter
-    private ProgressBar progressBarX; // För x-axeln
-    private ProgressBar progressBarY; // För y-axeln
-    private ProgressBar progressBarZ; // För z-axeln
+    private ProgressBar progressBarX;
+    private ProgressBar progressBarY;
+    private ProgressBar progressBarZ;
     private ImageView rotateImage;
     private SeekBar seekBar;
     private boolean sensorsActive = false;
@@ -42,19 +42,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         // Initialisera SensorManager och specifika sensorer
         initSensors();
-
         // Tilldela UI-komponenterna
         initUIComponents();
-
         // Ställ in switchen för att aktivera och avaktivera sensorer
         SwitchCompat switchSensor = findViewById(R.id.switchSensor);
         switchSensor.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -68,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
     }
-
     // Initialiserar SensorManager och sensorer
     private void initSensors() {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -76,18 +71,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
     }
-
     // Initialiserar UI-komponenter
     private void initUIComponents() {
         // Initialisera ProgressBars för varje axel
         progressBarX = findViewById(R.id.progressBarX);
         progressBarY = findViewById(R.id.progressBarY);
         progressBarZ = findViewById(R.id.progressBarZ);
-
         progressBarX.setProgress(0);
         progressBarY.setProgress(0);
         progressBarZ.setProgress(0);
-
         // Initialisera övriga UI-komponenter
         rotateImage = findViewById(R.id.rotateImage);
         seekBar = findViewById(R.id.seekBar);
@@ -95,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         seekBar.setProgress(180); // Startar i mitten av baren.
         seekBar.setEnabled(false); // Inaktivera användarinteraktion, endast indikator
     }
-
     @Override
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
@@ -110,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
         }
     }
-
     // Hanterar accelerometerdata
     private void handleAccelerometerData(float x, float y, float z) {
         final float GRAVITY = 9.81f;
@@ -136,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Toast.makeText(this, "Device shaken!", Toast.LENGTH_SHORT).show();
         }
     }
-
     // Hanterar gyroskopdata
     private void handleGyroscopeData(float yRotationRate, float zRotationRate, long timestamp) {
         // Kontrollerar om det är första gången metoden anropas
@@ -145,36 +134,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             lastTimestamp = timestamp;
             return; // Returnera tidigt eftersom vi inte kan beräkna rotation utan tidigare tidsstämpel
         }
-
         // Beräkna tiden från förra uppdateringen
         float deltaTime = (timestamp - lastTimestamp) * 1.0f / 1000000000.0f; // Nanosekunder till sekunder
         lastTimestamp = timestamp; // Uppdaterar för nästa anrop
-
         // Ändrar rotationshastigheten från radianer per sekund till grader per sekund
         float rotationInDegrees = yRotationRate * deltaTime * (180 / (float) Math.PI);
         totalRotation += rotationInDegrees;
-
         // Begränsar rotationsintervallet till -180 till 180 grader
         if (totalRotation > 180) {
             totalRotation -= 360; // Om över 180 grader, justera för att hålla inom intervallet
         } else if (totalRotation < -180) {
             totalRotation += 360; // Om under -180 grader, justera för att hålla inom intervallet
         }
-
         // Rotera bilden och uppdatera SeekBar
         rotateImage.setRotationY(totalRotation);
         seekBar.setProgress((int) (totalRotation + 180));
-
         // Kontrollera om rotationshastigheten överstiger tröskelvärdet
         if (Math.abs(yRotationRate) > 2 || Math.abs(zRotationRate) > 2) {
             Toast.makeText(this, "Quick rotation detected!", Toast.LENGTH_SHORT).show();
         }
     }
-
     // Hanterar ljussensordata
     private void handleLightData(float light) {
         View mainView = findViewById(R.id.main);
-
         if (light >= 1000) {
             mainView.setBackgroundColor(Color.RED); // Sätt bakgrunden till röd om ljusstyrkan är över 1000 lux
         } else {
@@ -186,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Hantera förändringar i sensorens noggrannhet, om tillämpligt
     }
-
     // Metod för att aktivera sensorer
     private void activateSensors() {
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -194,13 +175,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorsActive = true;
     }
-
     // Metod för att avaktivera sensorer
     private void deactivateSensors() {
         sensorManager.unregisterListener(this);
         sensorsActive = false;
     }
-
     // Metod för att återställa till standardläge
     private void resetToDefault() {
         totalRotation = 0; // Återställ rotationsvinkeln
@@ -210,13 +189,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         progressBarY.setProgress(0); // Återställ Y-axel ProgressBar till 0
         progressBarZ.setProgress(0); // Återställ Z-axel ProgressBar till 0
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         deactivateSensors(); // Avaktivera sensorer när appen pausas
     }
-
     @Override
     protected void onResume() {
         super.onResume();

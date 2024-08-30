@@ -3,4 +3,7 @@
     <string name="toggle_sensor">Toggle Sensor</string>
     <string name="activate_sensors">Activate Sensors</string>
     <string name="deactivate_sensors">Deactivate Sensors</string>
+    <string name="x_axel">X-Axel</string>
+    <string name="y_axel">Y-Axel</string>
+    <string name="z_axel">Z-Axel</string>
 </resources>
